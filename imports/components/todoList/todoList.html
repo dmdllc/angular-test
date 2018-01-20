@@ -1,0 +1,29 @@
+<header>
+	<h1>{{$ctrl.incompleteCount}} unanswered questions</h1>
+	<label class="hide-completed">
+	<input type="checkbox" ng-model="$ctrl.hideCompleted" />
+	Hide Answered Questions
+	</label>
+	<login-buttons></login-buttons>
+	<form class="new-task" ng-submit="$ctrl.addTask($ctrl.newTask)"  ng-show="$ctrl.currentUser">
+	<input ng-model="$ctrl.newTask" type="text" name="text" placeholder="Type to ask your question" />
+	</form>
+</header>
+
+<ul>
+	  <li ng-repeat="task in $ctrl.tasks" ng-class="{'checked': task.checked, 'private': task.private}">
+		<button class="delete" ng-click="$ctrl.removeTask(task)">&times;</button>
+		<input type="checkbox" ng-checked="task.checked" ng-click="$ctrl.setChecked(task)" class="toggle-checked" />
+		<span class="text" ng-switch on="task.private">
+			 <span ng-switch-when="true">
+			 	<input class="newtask text" style="border: none; background: transparent;" ng-model="$ctl.updateTask" type="text" ng-bind="task.text" ng-value="task.text" />
+			 </span>
+			 <span class="text" ng-switch-default>{{task.text}}</span>
+		 – <strong>{{task.username}}</strong>
+		</span>
+    <button class="toggle-private" ng-click="$ctrl.setPrivate(task)" ng-show="task.owner === $ctrl.currentUser._id">
+      {{task.private == true ? "Public" : "Private"}}
+    </button>
+	</li>
+</ul>
+<!-- button ng-click="$ctrl.restoreAll()">Restore All Tasks</button -->
